@@ -81,7 +81,7 @@ jobs:
       - name: Send Slack Message
         run: >
           curl -H 'Content-type: application/json'
-          --data '{"text":":githubloading: Committing to repo https://github.com/golamrabbiazad/spring-boot-full-stack/full-stack-v2/"}'
+          --data '{"text":":githubloading: Committing to repo https://github.com/golamrabbiazad/full-stack-v2/"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Commit and push Dockerrun.aws.json
         run: |
@@ -93,7 +93,7 @@ jobs:
       - name: Send Slack Message
         run: >
           curl -H 'Content-type: application/json'
-          --data '{"text":"Deployment and commit completed :github-check-mark: :party_blob: - https://github.com/golamrabbiazad/spring-boot-full-stack/full-stack-v2/"}'
+          --data '{"text":"Deployment and commit completed :github-check-mark: :party_blob: - https://github.com/golamrabbiazad/full-stack-v2/"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Send Slack Message
         if: always()
