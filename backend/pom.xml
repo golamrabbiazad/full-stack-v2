@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.0.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.golamrabbiazad</groupId>
-    <artifactId>full-stack-v2</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+
     <name>full-stack-v2</name>
     <description>full-stack-v2</description>
+    <groupId>com.golamrabbiazad</groupId>
+    <artifactId>full-stack-v2</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
     <properties>
         <java.version>17</java.version>
-        <app.image.name>fullstack</app.image.name>
-        <app.image.tag/>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <docker.username>golamrabbiazad</docker.username>
+        <docker.image.name>fullstack</docker.image.name>
+        <docker.image.tag/>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,123 +79,26 @@
                 <version>3.3.1</version>
                 <configuration>
                     <from>
-                        <image>openjdk:17</image>
+                        <image>eclipse-temurin:17</image>
+                        <platforms>
+                            <platform>
+                                <architecture>arm64</architecture>
+                                <os>linux</os>
+                            </platform>
+                            <platform>
+                                <architecture>amd64</architecture>
+                                <os>linux</os>
+                            </platform>
+                        </platforms>
                     </from>
-                    <container>
-                        <ports>
-                            <port>8080</port>
-                        </ports>
-                        <format>OCI</format>
-                    </container>
+                    <to>
+                        <image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
+                        <tags>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>jib-push-to-dockerhub</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>3.3.1</version>
-                        <configuration>
-                            <from>
-                                <image>openjdk:17</image>
-                            </from>
-                            <container>
-                                <ports>
-                                    <port>8080</port>
-                                </ports>
-                                <format>OCI</format>
-                            </container>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>push-custom-tag</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <to>
-                                        <image>docker.io/golamrabbiazad/${app.image.name}:${app.image.tag}</image>
-                                    </to>
-                                </configuration>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>push-latest-tag</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <to>
-                                        <image>docker.io/golamrabbiazad/${app.image.name}:latest</image>
-                                    </to>
-                                </configuration>
-                                <goals>
-                                    <goal>build</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jib-push-to-local</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>jib-maven-plugin</artifactId>
-                        <version>3.3.1</version>
-                        <configuration>
-                            <from>
-                                <image>openjdk:17</image>
-                            </from>
-                            <container>
-                                <ports>
-                                    <port>8080</port>
-                                </ports>
-                                <format>OCI</format>
-                            </container>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>push-custom-tag</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <to>
-                                        <image>golamrabbiazad/${app.image.name}:${app.image.tag}</image>
-                                    </to>
-                                </configuration>
-                                <goals>
-                                    <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>push-latest-tag</id>
-                                <phase>package</phase>
-                                <configuration>
-                                    <to>
-                                        <image>golamrabbiazad/${app.image.name}:latest</image>
-                                    </to>
-                                </configuration>
-                                <goals>
-                                    <goal>dockerBuild</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>
