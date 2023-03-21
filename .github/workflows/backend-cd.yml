@@ -66,13 +66,6 @@ jobs:
           curl -H 'Content-type: application/json'
           --data '{"text":":docker: Image tag:${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/golamrabbiazad/fullstack"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Update Dockerrun.aws.json api image tag with new build number
-        run: |
-          echo "Dockerrun.aws.json before updating tag"
-          cat ../Dockerrun.aws.json
-          sed -i -E 's_(golamrabbiazad/fullstack:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' ../Dockerrun.aws.json
-          echo "Dockerrun.aws.json after updating tag"
-          cat ../Dockerrrun.aws.json
       - name: Send Slack Message
         run: >
           curl -H 'Content-type: application/json'
